@@ -30,6 +30,20 @@ public class DiaryController {
         if(criteria.getPage() == 0){
             criteria.create(1, 10);
         }
+
+//        model.addAttribute("members", diaryService.showAllPartner(criteria));
+        model.addAttribute("diaries", diaryService.showAll(criteria));
+//        model.addAttribute("diary", diaryService.show(diaryNumber));
+        model.addAttribute("pagination",new PageDTO().createPageDTO(criteria, diaryService.getTotal()));
+//        if(request.getSession().getAttribute("memberNumber") != null){
+//            Long memberNumber = (Long) request.getSession().getAttribute("memberNumber");
+////            Long diaryPartnerNumber = (Long)request.getSession().getAttribute("diaryPartnerNumber");
+////            model.addAttribute("partner", memberObjectificationService.show(diaryPartnerNumber));
+//            model.addAttribute("member", memberObjectificationService.show(memberNumber));
+//            log.info("멤버넘버: "+memberNumber);
+////            log.info("파트너넘버: "+diaryPartnerNumber);
+//        }
+
         if(request.getSession().getAttribute("memberNumber") != null){
             Long memberNumber = (Long) request.getSession().getAttribute("memberNumber");
             model.addAttribute("diaries", diaryService.myDiarySelectAll(criteria, memberNumber));
@@ -83,6 +97,7 @@ public class DiaryController {
             model.addAttribute("pagination",new PageDTO().createPageDTO(criteria, diaryService.toMeFromPartnerDiaryGetTotal(memberNumber, diaryPartnerNumber)));
             model.addAttribute("partners", diaryService.showPartner(memberNumber));
         }
+
     }
 
     // 일기 상세 페이지, 일기 수정 페이지
